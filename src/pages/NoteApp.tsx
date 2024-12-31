@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, Check, Search } from "lucide-react";
+import { Plus, Trash2, Edit2, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Note {
