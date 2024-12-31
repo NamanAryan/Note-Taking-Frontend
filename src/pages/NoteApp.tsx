@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit2, Check, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { API_URL } from "../config";
 interface Note {
   _id: string;
   title: string;
@@ -25,7 +25,7 @@ const NoteApp: React.FC = () => {
 
   const fetchNotes = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/notes/notes", {
+      const response = await fetch(`${API_URL}/api/notes/notes`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -65,8 +65,8 @@ const NoteApp: React.FC = () => {
     try {
       const isNewNote = !selectedNote._id.includes("-");
       const url = isNewNote
-        ? "http://localhost:8000/api/notes/note"
-        : `http://localhost:8000/api/notes/notes/${selectedNote._id}`;
+        ? `${API_URL}/api/notes/note`
+        : `${API_URL}/api/notes/notes/${selectedNote._id}`;
 
       const response = await fetch(url, {
         method: isNewNote ? "POST" : "PATCH",
@@ -102,7 +102,7 @@ const NoteApp: React.FC = () => {
 
       // For saved notes, attempt to delete from the backend
       const response = await fetch(
-        `http://localhost:8000/api/notes/notes/${noteId}`,
+        `${API_URL}/api/notes/notes/${noteId}`,
         {
           method: "DELETE",
           headers: {
