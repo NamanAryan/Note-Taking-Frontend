@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Edit2, Check, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../config";
+
 interface Note {
   _id: string;
   title: string;
@@ -17,7 +17,7 @@ const NoteApp: React.FC = () => {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
 
   useEffect(() => {
     fetchNotes();
@@ -25,7 +25,7 @@ const NoteApp: React.FC = () => {
 
   const fetchNotes = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/notes/notes`, {
+      const response = await fetch("http://localhost:8000/api/notes/notes", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -59,14 +59,19 @@ const NoteApp: React.FC = () => {
   };
 
   const handleSaveNote = async () => {
-    if (!selectedNote?.title.trim() || !selectedNote?.content.trim() || !isEditing) return;
+    if (
+      !selectedNote?.title.trim() ||
+      !selectedNote?.content.trim() ||
+      !isEditing
+    )
+      return;
     setIsEditing(false);
 
     try {
       const isNewNote = !selectedNote._id.includes("-");
       const url = isNewNote
-        ? `${API_URL}/api/notes/note`
-        : `${API_URL}/api/notes/notes/${selectedNote._id}`;
+        ? "http://localhost:8000/api/notes/note"
+        : `http://localhost:8000/api/notes/notes/${selectedNote._id}`;
 
       const response = await fetch(url, {
         method: isNewNote ? "POST" : "PATCH",
@@ -94,7 +99,9 @@ const NoteApp: React.FC = () => {
       // Check if this is a temporary note (using Date.now() as ID)
       if (noteId.length >= 13 && !isNaN(Number(noteId))) {
         // This is an unsaved note with a timestamp ID
-        setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));
+        setNotes((prevNotes) =>
+          prevNotes.filter((note) => note._id !== noteId)
+        );
         setSelectedNote(null);
         setIsEditing(false);
         return;
@@ -102,7 +109,7 @@ const NoteApp: React.FC = () => {
 
       // For saved notes, attempt to delete from the backend
       const response = await fetch(
-        `${API_URL}/api/notes/notes/${noteId}`,
+        `http://localhost:8000/api/notes/notes/${noteId}`,
         {
           method: "DELETE",
           headers: {
@@ -113,7 +120,9 @@ const NoteApp: React.FC = () => {
 
       if (response.ok) {
         // Update the UI state
-        setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));
+        setNotes((prevNotes) =>
+          prevNotes.filter((note) => note._id !== noteId)
+        );
         setSelectedNote(null);
         setIsEditing(false);
       } else {
@@ -121,16 +130,17 @@ const NoteApp: React.FC = () => {
       }
     } catch (error) {
       // If there's any error (including network errors), still remove from UI
-      setNotes(prevNotes => prevNotes.filter(note => note._id !== noteId));
+      setNotes((prevNotes) => prevNotes.filter((note) => note._id !== noteId));
       setSelectedNote(null);
       setIsEditing(false);
       console.error("Error deleting note:", error);
     }
   };
 
-  const filteredNotes = notes.filter(note => 
-    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.content.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredNotes = notes.filter(
+    (note) =>
+      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isLoading) {
@@ -170,7 +180,7 @@ const NoteApp: React.FC = () => {
             New Note
           </button>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto">
           {filteredNotes.map((note) => (
             <div
@@ -192,10 +202,10 @@ const NoteApp: React.FC = () => {
                 {note.content || "No content"}
               </p>
               <p className="text-xs text-gray-400 mt-2">
-                {new Date(note.createdAt).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
+                {new Date(note.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
                 })}
               </p>
             </div>
@@ -276,8 +286,13 @@ const NoteApp: React.FC = () => {
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-gray-400 p-6 text-center">
             <div className="bg-gray-50 p-8 rounded-2xl">
-              <h3 className="text-xl font-medium text-gray-900 mb-2">No Note Selected</h3>
-              <p className="text-gray-500 mb-6">Select a note from the sidebar or create a new one to get started</p>
+              <h3 className="text-xl font-medium text-gray-900 mb-2">
+                No Note Selected
+              </h3>
+              <p className="text-gray-500 mb-6">
+                Select a note from the sidebar or create a new one to get
+                started
+              </p>
               <button
                 onClick={handleNewNote}
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-6 py-3 rounded-lg hover:from-indigo-700 hover:to-violet-700 transition-all duration-200 shadow-md hover:shadow-lg"
