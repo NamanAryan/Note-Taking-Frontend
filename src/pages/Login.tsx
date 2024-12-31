@@ -111,7 +111,7 @@ const Login = () => {
           </div>
         </div>
         <div className="text-sm text-blue-200">
-          © 2024 Notes App. All rights reserved.
+          © 2025 Notes App. All rights reserved.
         </div>
       </div>
 
