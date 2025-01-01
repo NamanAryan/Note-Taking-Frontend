@@ -60,16 +60,13 @@ const NoteApp: React.FC = () => {
   };
 
   const handleSaveNote = async () => {
-    if (
-      !selectedNote?.title.trim() ||
-      !selectedNote?.content.trim() ||
-      !isEditing
-    )
-      return;
+    if (!selectedNote?.title.trim() || !selectedNote?.content.trim() || !isEditing) return;
     setIsEditing(false);
 
     try {
-      const isNewNote = !selectedNote._id.includes("-");
+      // Check if this is a temporary note (using Date.now() as ID)
+      const isNewNote = selectedNote._id.length >= 13 && !isNaN(Number(selectedNote._id));
+      
       const url = isNewNote
         ? `${API_URL}/api/notes/note`
         : `${API_URL}/api/notes/notes/${selectedNote._id}`;
@@ -93,7 +90,7 @@ const NoteApp: React.FC = () => {
       console.error("Error saving note:", error);
       setIsEditing(true);
     }
-  };
+};
 
   const handleDeleteNote = async (noteId: string) => {
     try {
