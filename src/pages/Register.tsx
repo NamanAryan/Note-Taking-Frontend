@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
 import { API_URL } from "../config";
+import { Link } from 'react-router-dom';
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -181,12 +182,9 @@ const Register = () => {
 
           <p className="mt-6 text-sm text-center text-gray-600">
             Already have an account?{" "}
-            <a
-              href="/login"
-              className="text-purple-600 hover:text-purple-800 font-medium"
-            >
-              Log in
-            </a>
+            <Link to="/login" className="text-purple-600 hover:text-purple-800 font-medium">
+              Login
+            </Link>
           </p>
         </div>
       </div>
