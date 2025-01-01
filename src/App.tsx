@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';  // I
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NoteApp from './pages/NoteApp';
-import { useNavigate, useEffect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Define ProtectedRoute directly in App.tsx for now
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
