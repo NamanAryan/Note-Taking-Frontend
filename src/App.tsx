@@ -6,8 +6,16 @@ import NoteApp from './pages/NoteApp';
 
 // Define ProtectedRoute directly in App.tsx for now
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  return token ? <>{children}</> : <Navigate to="/login" />;
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
+  return token ? children : null;
 };
 
 const App = () => {
