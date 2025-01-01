@@ -4,13 +4,8 @@ import Register from './pages/Register';
 import NoteApp from './pages/NoteApp';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem('token');
-  
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
-
-  return <>{children}</>;
+ const token = localStorage.getItem('token');
+ return token ? children : <Navigate to="/login" replace />;
 };
 
 const App = () => {
