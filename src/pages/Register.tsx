@@ -18,10 +18,14 @@ const Register = () => {
     setLoading(true);
 
     try {
+      
       const response = await fetch(`${API_URL}/api/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
 
       const data = await response.json();
