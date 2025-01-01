@@ -1,17 +1,14 @@
-// src/components/ProtectedRoute.tsx
-import { Navigate } from 'react-router-dom';
+// src/App.tsx
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';  // Import Navigate only once
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NoteApp from './pages/NoteApp';
 
+// Define ProtectedRoute directly in App.tsx for now
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('token');
   return token ? <>{children}</> : <Navigate to="/login" />;
 };
-
-// src/App.tsx
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import NoteApp from './pages/NoteApp';
-import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   return (
