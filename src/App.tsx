@@ -3,20 +3,20 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NoteApp from './pages/NoteApp';
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
- const token = localStorage.getItem('token');
- return token ? children : <Navigate to="/login" replace />;
-};
-
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/notes" element={<ProtectedRoute><NoteApp /></ProtectedRoute>} />
-        <Route path="/" element={<Navigate to="/notes" />} />
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route 
+          path="/notes" 
+          element={
+            localStorage.getItem('token') ? <NoteApp /> : <Navigate to="/login" replace />
+          } 
+        />
+        <Route path="/" element={<Navigate to="/notes" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
