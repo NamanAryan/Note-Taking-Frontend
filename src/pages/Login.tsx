@@ -31,7 +31,7 @@ const Login = () => {
 
     if (response.ok) {
       localStorage.setItem('token', data.token);
-      navigate('/');  // Make sure this is '/' and not '/4'
+      navigate('/notes');  // Make sure this is '/' and not '/4'
     } else {
       setError(data.message || 'Invalid credentials');
     }
