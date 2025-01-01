@@ -13,34 +13,35 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
-    try {
-      const response = await fetch(`${API_URL}/api/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  try {
+    const response = await fetch(`${API_URL}/api/users/login`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      } else {
-        setError(data.message || "Invalid credentials");
-      }
-    } catch (error) {
-      setError("Failed to connect to the server");
-    } finally {
-      setLoading(false);
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      navigate('/');  // Make sure this is '/' and not '/4'
+    } else {
+      setError(data.message || 'Invalid credentials');
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    setError('Failed to connect to the server');
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Rest of your component remains the same
   return (
