@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock } from "lucide-react";
 import { API_URL } from "../config";
-
+import { Link } from 'react-router-dom';
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
