@@ -1,23 +1,17 @@
-// src/App.tsx
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';  // Import Navigate only once
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NoteApp from './pages/NoteApp';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-// Define ProtectedRoute directly in App.tsx for now
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
 
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    }
-  }, [token, navigate]);
-
-  return token ? children : null;
+  return <>{children}</>;
 };
 
 const App = () => {
@@ -26,15 +20,9 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route 
-          path="/notes" 
-          element={
-            <ProtectedRoute>
-              <NoteApp />
-            </ProtectedRoute>
-          } 
-        />
+        <Route path="/notes" element={<ProtectedRoute><NoteApp /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/notes" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );
