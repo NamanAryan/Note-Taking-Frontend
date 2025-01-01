@@ -17,7 +17,12 @@ const Register = () => {
     setError("");
     setLoading(true);
 
+    // Add these console logs
+    console.log('API URL:', API_URL);
+    console.log('Form Data being sent:', formData);
+
     try {
+      console.log('Making request to:', `${API_URL}/api/users/register`);
       
       const response = await fetch(`${API_URL}/api/users/register`, {
         method: 'POST',
@@ -28,7 +33,9 @@ const Register = () => {
         body: JSON.stringify(formData)
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
         navigate("/login");
@@ -36,11 +43,12 @@ const Register = () => {
         setError(data.message || "Registration failed");
       }
     } catch (error) {
+      console.error('Detailed error:', error);
       setError("Failed to connect to the server");
     } finally {
       setLoading(false);
     }
-  };
+};
 
   return (
     <div className="flex h-screen">
