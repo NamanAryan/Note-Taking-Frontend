@@ -221,12 +221,10 @@ const Login = () => {
                 </span>
               </div>
             </div>
-            <button
-              onClick={() => navigate("/register")}
-              className="w-full bg-white text-blue-600 py-3 border border-blue-600 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 font-medium"
-            >
-              Create an account
-            </button>
+            <Link to="/register" className="w-full block text-center bg-white text-blue-600 py-3 border border-blue-600 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 font-medium"
+>
+  Create an account
+</Link>
           </div>
         </div>
       </div>
